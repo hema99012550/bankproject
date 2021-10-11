@@ -1,0 +1,204 @@
+#include <iostream>
+#include<fstream>
+using namespace std;
+class bank//class
+{
+  public:
+    char name[100];
+    char acctype[10],add[100];
+    int accno;
+    int balamt;
+     void takedata(){
+       cout<<"\nplease enter your name:";
+       cin>>name;
+       cout<<"\nplease enter your account type:";
+       cin>>acctype;
+       cout<<"\nenter your account number:";
+       cin>>accno;
+       cout<<"\nenter your balance amount:";
+       cin>>balamt;
+       cout<<"\nenter your address:";
+       cin>>add;
+
+       ofstream myfile("textfile");
+       myfile<< name<<"   "<<accno;
+       myfile.close();
+       
+       char name1[100];
+       ifstream readfile("textfile");
+       readfile.getline(name1,100);
+       readfile.close();
+       cout<<"\nread from file:"<<name1;
+
+
+     }
+     void showaccountdata(){
+       cout<<"\nyour name is:"<<name;
+       cout<<"\nyour account type is:"<<acctype;
+       cout<<"\nyour account number is:"<<accno;
+       cout<<"\nyour balance amount:"<<balamt;
+     }
+     void depositmoney(){
+       int amt;
+       cout<<"\nenter your deposit money:";
+       cin>>amt;
+       balamt=balamt+amt;
+       cout<<"\nyour balance amount in bank :"<<balamt;
+     }
+     void withdrawlmoney(){
+       int amt;
+       cout<<"\nenter your withdrawl amount:";
+       cin>>amt;
+       if(balamt>amt)
+       {
+         balamt=balamt-amt;
+         cout<<"\nyour balance amount in your account:"<<balamt;
+       }
+       else 
+       {
+         cout<<"\nplease enter valid amount:";
+
+       }
+       }
+     void calinterest(){
+       int intrat=5;
+       int y,m,interest;
+       cout<<"\nhowmany years you deposited money in bank:";
+       cin>>y>>m;
+       if(m>1)
+       {
+       interest=(balamt*5*(y+m/12))/100;
+       cout<<"\nyour interest amount:"<<interest;
+       }
+       else if(m<=1) 
+       {
+         cout<<"\ninterest open for above one month ";
+       }
+
+     }  
+     int search (int);
+     int find(char);
+     int abc(char);
+
+
+};
+int bank :: search(int a)
+{
+   if(accno==a )
+   {
+     showaccountdata();
+     return 1;
+   }
+   return 0;
+}
+int bank ::find(char na)
+{
+  if(name[10]==na)
+  {
+    showaccountdata();
+    return 1;
+  }
+  return 0;
+}
+int bank::abc(char ad)
+{
+  if(add[10]==ad)
+  {
+    showaccountdata();
+    return 1;
+  }
+  return 0;
+}
+
+
+//main code
+int main(){
+  bank b[10];
+  int i,a,found=0,n=1,c=1;
+  char na[100],ad[100];
+  b[i].takedata();
+  
+  
+
+  do//choosing options
+  {
+   cout<<"\n1:show account data 2:deposit 3:withdrawl 4:claculate interest 5:if u want add anothe person details 6:search account num 7:search name 8:search address 0:exit:"; 
+   cout<<"\nenter your choice:"<<endl;
+   cin>>c;
+  
+    switch(c)
+    {
+      case 1 :
+         
+           b[i].showaccountdata();//show the account data for users using choice
+           break;
+
+         
+      case 2:
+         //deposit money in bank for users using choice
+           b[i].depositmoney();
+           break;
+
+         
+      case 3:
+         //withdrawl money from bank for users using chioce
+           b[i].withdrawlmoney();
+           break;
+         
+      case 4:
+         //clculate the interest
+          b[i].calinterest();
+          break;
+      case 5:
+          b[i].takedata();
+          break;
+      case 6:
+           // searching the record
+            cout << "Account Number? ";
+            cin >> a;
+            for (i = 0; i <= n; i++) {
+                found = b[i].search(a);
+                if (found)
+                    break;
+            }
+            if (!found)
+                cout << "Record Not Found" << endl;
+            break;
+      case 7:
+          //find the name
+           cout << "Accounter name? ";
+            cin >> na;
+            for (i = 0; i <= n; i++) {
+                found = b[i].find(na[10]);
+                if (found)
+                    break;
+            }
+            if (!found)
+                cout << "Record Not Found" << endl;
+            break;
+          
+      case 8:
+       //search the address
+          cout<<"\naddress:";
+          cin>>ad;
+          for(i=0;i<=n;i++) {
+             found=b[i].abc(ad[10]);
+             if(found)
+                break;
+       }
+          if(!found)
+              cout<<"\nrecord not found"<<endl;
+          break;
+         
+          
+          
+    
+      default:
+        cout<<"\nwrong option:"<<endl;  
+    }
+   //cout<<"\n1:showdata 2:deposit 3:withdrawl 4:interest 5:if u want add another person details press 5 6:exit";
+    //cin>>c;
+
+  }while(c);
+  return 0;
+  }
